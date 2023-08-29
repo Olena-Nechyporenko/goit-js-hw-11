@@ -4,7 +4,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 axios.defaults.headers.common['x-api-key'] =
   'live_C8fch3W7tmmF8fmpsXU2mdIfjeqC3R8Q3wAY9gs2QZiQFnTO5tNKg722MPHavC8b';
 
-BASE_URL = "https://pixabay.com/api/"
+const BASE_URL = "https://pixabay.com/api/"
 
 const elem = {
     form: document.querySelector(".search-form"),
@@ -16,26 +16,21 @@ elem.form.addEventListener("submit", onSubmit)
 
 function onSubmit(evt) {
     evt.preventDefault()
-    console.log(evt.target)
+    console.log(elem.input.value)
+    
+    return axios
+    .get(`${BASE_URL}?key=39125573-a5e5a696ee6b560e318b28a02&q=${elem.input.value}&image_type=photo&orientation=horizontal&safesearch=true`)
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      throw new Error('Помилка запиту:', error.message);
+    });
+    
 }
 
 
 
-
-
-
-// function searchImages() {
-//     return axios
-//     .get(`${BASE_URL}?key=39125573-a5e5a696ee6b560e318b28a02&image_type=photo&orientation=horizontal&safesearch=true`)
-//     .then(response => {
-//       return response;
-//     })
-//     .catch(error => {
-//       throw new Error('Помилка запиту:', error.message);
-//     });
-// }
-
-// console.log(searchImages())
 
 
 
