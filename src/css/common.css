@@ -1,5 +1,7 @@
 body {
     font-family: 'Roboto', sans-serif;
+    
+    
   }
 .list {
  list-style: none;
@@ -20,23 +22,44 @@ ul {
 img {
   display: block;
   max-width: 100%;
-  height: auto;
+  
+}
+
+.is-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
 }
 .header-container {
     background-color: #4C73C8;
     padding: 20px 0;
 }
+.main-container {
+    padding: 10px 20px;
+}
 .search-form {
     display: flex;
     justify-content: center;
+    
 }
 .input-form {
     padding: 10px;
     box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    border-radius: 10px;
 }
+
 .input-form::placeholder {
     font-size: 15px;
+    
 }
+
 .input-wrapper {
     position: relative;
     
@@ -48,14 +71,21 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 8px;
     position: absolute;
-    right: 1px;
+    right: 2px;
     top: 50%;
     z-index: 3;
     transform: translate(0, -50%);
     border: none;
     color: #3F4656;
+    cursor: pointer;
 }
+.search-btn:hover,
+.search-btn:focus {
+    background-color: #D9DEE3;
+}
+
 .search-icon {
         fill: currentColor;
 }
@@ -65,7 +95,7 @@ img {
     flex-wrap: wrap;
     justify-content: space-between;
     row-gap: 20px;
-    padding: 20px 15px;
+    margin-bottom: 15px;
 }
 .photo-card {
     
@@ -75,9 +105,33 @@ img {
 .info {
     display: flex;
     justify-content: space-between;
+    text-align: center;
     padding: 20px 7px;
     
 }
 .info-item {
-    font-size: 15px;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.load-more {
+    display: block;
+    background-color: #4C73C8;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: aliceblue;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 1px 6px rgba(46, 47, 66, 0.08), 0px 1px 1px rgba(46, 47, 66, 0.16), 0px 2px 1px rgba(46, 47, 66, 0.08);
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.load-more:hover,
+.load-more:focus {
+    background-color: #246CBA;
 }
