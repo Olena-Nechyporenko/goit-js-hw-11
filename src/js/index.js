@@ -23,16 +23,24 @@ const lightbox = new SimpleLightbox('.gallery a')
 
 elem.form.addEventListener("submit", onSubmit)
 
+
 async function onSubmit(evt) {
     evt.preventDefault();
-    const response = await searchImages() 
+    page = 1;
+    const inputValue = elem.input.value.trim();
+    if(!inputValue) {
+      elem.gallery.innerHTML = '';
+      elem.loadMoreBtn.classList.replace("load-more", "is-hidden");
+      return Notify.warning("Sorry, there are no images matching your search query. Please try again.", {width: "400px"}); 
+    }
+    const response = await searchImages(page, inputValue) 
     try {
-        if(response.hits.length === 0 || elem.input.value.trim() === "") {
-         return Notify.warning("Sorry, there are no images matching your search query. Please try again.", {width: "400px"}); 
-      }
-        
         elem.gallery.innerHTML = renderMarkupInfo(response);
         lightbox.refresh()
+        if(response.hits.length === 0) {
+          elem.loadMoreBtn.classList.replace("load-more", "is-hidden");
+          return Notify.warning("Sorry, there are no images matching your search query. Please try again.", {width: "400px"}); 
+        }
         Notify.success(`Hooray! We found ${response.totalHits} images!`, {width: "350px", fontSize: "20px"}); 
 
        const pages = Math.ceil(response.totalHits/40);
@@ -40,15 +48,14 @@ async function onSubmit(evt) {
         elem.loadMoreBtn.classList.replace("is-hidden", "load-more");
        }
     } catch(err) {
-      elem.gallery.innerHTML = '';
-      elem.loadMoreBtn.classList.replace("load-more", "is-hidden");
       console.log("Error :", err.message)};
-}
+    }
 
- async function searchImages(currentPage = "1") {
+
+ async function searchImages(currentPage = "1", inputValue) {
   const params = new URLSearchParams({
       key: "39125573-a5e5a696ee6b560e318b28a02",
-      q: elem.input.value.trim(),
+      q: inputValue,
       image_type: "photo",
       orientation: "horizontal",
       safesearch: true,
@@ -63,14 +70,15 @@ elem.loadMoreBtn.addEventListener("click", handlerLoadMore);
 
 async function handlerLoadMore() { 
   page += 1;
-  const response = await searchImages(page)
+  const inputValue = elem.input.value.trim();
+  const response = await searchImages(page, inputValue);
    try {
       elem.gallery.insertAdjacentHTML("beforeend", renderMarkupInfo(response));
-       lightbox.refresh()
+       lightbox.refresh();
        
-      const pages = Math.ceil(response.totalHits/40)
+      const pages = Math.ceil(response.totalHits/40);
       if(page < pages) {
-        elem.loadMoreBtn.classList.replace("is-hidden", "load-more")
+        elem.loadMoreBtn.classList.replace("is-hidden", "load-more");
        }
       if(page === pages) {
         elem.loadMoreBtn.classList.replace("load-more", "is-hidden");
@@ -78,6 +86,7 @@ async function handlerLoadMore() {
          } 
       } catch(err) {
       elem.loadMoreBtn.classList.replace("load-more", "is-hidden");
+      console.log("Error :", err.message);
     };
 }
 
